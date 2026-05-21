@@ -1,0 +1,40 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Charte NIKOA */
+  --cyan:        #4f46e5;
+  --cyan-dark:   #4338ca;
+  --green:       #e0e7ff;
+  --green-btn:   #4f46e5;
+  --gray-sec:    #8c8e90;
+  --dark:        #2c2c2c;
+  --dark-footer: #4338ca;
+  --white:       #ffffff;
+  --gray-border: #e0e0e0;
+  --gray-bg:     #f7f8f9;
+
+  /* Rustica avec fallbacks */
+  --font: 'Rustica', 'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: var(--font);
+  background-color: transparent;
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button { font-family: var(--font); cursor: pointer; border: none; outline: none; }
+input, textarea { font-family: var(--font); }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #ccc; }

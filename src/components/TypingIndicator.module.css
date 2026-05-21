@@ -1,0 +1,53 @@
+.wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  background-color: var(--cyan);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 9px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.bubble {
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 18px 18px 18px 4px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  background-color: var(--cyan);
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: bounce 1.4s infinite ease-in-out;
+}
+.dot:nth-child(1) { animation-delay: 0s; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30%           { transform: translateY(-6px); opacity: 1; }
+}

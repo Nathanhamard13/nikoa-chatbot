@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Démo widget Relya — Intégration sur votre site</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f4f6f8;
+      color: #1a1a1a;
+    }
+
+    /* ── Fausse nav ── */
+    nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: #00a5c6; letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { text-decoration: none; color: #4b5563; font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: #00a5c6; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #00a5c6 0%, #0090aa 100%);
+      color: white;
+      padding: 80px 40px;
+      text-align: center;
+    }
+    .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+    .hero p { font-size: 18px; opacity: 0.9; max-width: 580px; margin: 0 auto 32px; line-height: 1.6; }
+    .hero-cta {
+      display: inline-block;
+      background: #d9ea53;
+      color: #1a1a1a;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px 32px;
+      border-radius: 30px;
+      text-decoration: none;
+    }
+
+    /* ── Contenu ── */
+    .content {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    .section-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      color: #6b7280;
+      font-size: 16px;
+      margin-bottom: 36px;
+    }
+
+    /* ── Code box ── */
+    .code-box {
+      background: #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+    .code-header {
+      background: #334155;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red   { background: #ef4444; }
+    .dot-yellow{ background: #f59e0b; }
+    .dot-green { background: #22c55e; }
+    .code-filename { color: #94a3b8; font-size: 13px; margin-left: 8px; font-family: monospace; }
+    pre {
+      padding: 24px;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .kw  { color: #f97316; }
+    .str { color: #a3e635; }
+    .cmt { color: #64748b; font-style: italic; }
+    .tag { color: #60a5fa; }
+    .attr{ color: #fbbf24; }
+
+    /* ── Features ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+    .feature-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e5e7eb;
+    }
+    .feature-icon { font-size: 28px; margin-bottom: 12px; }
+    .feature-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .feature-desc { font-size: 14px; color: #6b7280; line-height: 1.5; }
+
+    /* ── Footer ── */
+    footer {
+      background: #1e293b;
+      color: #94a3b8;
+      text-align: center;
+      padding: 32px 20px;
+      font-size: 14px;
+    }
+    footer strong { color: #d9ea53; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 28px; }
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fausse nav pour simuler un vrai site -->
+  <nav>
+    <span class="nav-logo">Relya</span>
+    <div class="nav-links">
+      <a href="#">Nos missions</a>
+      <a href="#">Secteurs</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Intégrez Sophie sur votre site</h1>
+    <p>Le widget de chat Relya s'intègre en 2 lignes sur n'importe quel site web. Regardez en bas à droite 👇</p>
+    <a href="#integration" class="hero-cta">Voir le code d'intégration</a>
+  </div>
+
+  <!-- Contenu -->
+  <div class="content">
+
+    <h2 class="section-title" id="integration">Intégration en 2 lignes</h2>
+    <p class="section-sub">Collez ce code juste avant la balise <code>&lt;/body&gt;</code> de votre site.</p>
+
+    <div class="code-box">
+      <div class="code-header">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <span class="code-filename">votre-site.html</span>
+      </div>
+      <pre><span class="cmt">&lt;!-- Widget Sophie — Cabinet Relya --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://relya-chatbot.vercel.app/widget.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;script&gt;</span>RelayaChat.init()<span class="tag">&lt;/script&gt;</span></pre>
+    </div>
+
+    <h2 class="section-title">Fonctionnalités incluses</h2>
+    <p class="section-sub">Tout est prêt, rien à configurer.</p>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-title">IA Sophie</div>
+        <div class="feature-desc">Propulsée par Claude d'Anthropic, Sophie connaît tout du cabinet Relya.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">100% sécurisé</div>
+        <div class="feature-desc">Clé API côté serveur uniquement. Rate limiting, validation, timeout.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <div class="feature-title">Responsive</div>
+        <div class="feature-desc">Plein écran sur mobile, popup élégant sur desktop.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Léger</div>
+        <div class="feature-desc">Chargement asynchrone, aucun impact sur les performances de votre site.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-title">Design pro</div>
+        <div class="feature-desc">Charte cyan/vert Relya, animations fluides, boutons d'action contextuels.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <div class="feature-title">Liens & CTA</div>
+        <div class="feature-desc">Sophie intègre des liens cliquables et des cartes d'action dans ses réponses.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Widget développé pour <strong>Cabinet Relya</strong> — 191 boulevard de Laval, 35500 Vitré — 02 99 75 01 03
+  </footer>
+
+  <!-- ✅ Intégration du widget (2 lignes) -->
+  <script src="https://relya-chatbot.vercel.app/widget.js"></script>
+  <script>RelayaChat.init()</script>
+
+</body>
+</html>
