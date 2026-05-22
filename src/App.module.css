@@ -1,5 +1,4 @@
-/* ── Full-screen layout ───────────────────────── */
-
+/* ── Conteneur plein écran ────────────────────── */
 .app {
   display: flex;
   flex-direction: column;
@@ -9,86 +8,103 @@
   overflow: hidden;
 }
 
-/* ── Header ───────────────────────────────────── */
-.header {
-  width: 100%;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  height: 64px;
-  padding: 0 24px;
-}
+/* ═══════════════════════════════════════════════
+   ÉCRAN DE SÉLECTION DE SECTEUR
+   ═══════════════════════════════════════════════ */
 
-.headerInner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 680px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.headerLeft {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.headerAvatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  color: var(--color-bg);
-  font-family: var(--font-title);
-  font-size: 10px;
-  font-weight: 800;
+.sectorScreen {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
+  padding: 40px 24px;
+  overflow-y: auto;
 }
 
-.headerInfo {
+.sectorContent {
+  width: 100%;
+  max-width: 580px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 10px;
 }
 
-.headerName {
+.sectorTitle {
   font-family: var(--font-title);
-  font-size: 17px;
+  font-size: 30px;
   font-weight: 800;
   color: var(--color-primary);
-  line-height: 1;
-  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
 }
 
-.headerAccent {
-  color: var(--color-accent);
+.sectorSubtitle {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1.6;
+  max-width: 400px;
+  margin-bottom: 20px;
 }
 
-.headerStatus {
+.sectorGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+}
+
+.sectorCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 0.18s, background 0.18s, transform 0.12s, box-shadow 0.18s;
+}
+.sectorCard:hover {
+  border-color: var(--color-accent);
+  background: rgba(255, 0, 87, 0.04);
+  box-shadow: 0 4px 16px rgba(255, 0, 87, 0.1);
+}
+.sectorCard:active {
+  transform: scale(0.97);
+}
+
+.sectorCardIcon {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 11.5px;
-  color: var(--color-text);
-  font-weight: 400;
-}
-
-.statusDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #22c55e;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
   flex-shrink: 0;
 }
 
-/* ── Center column ────────────────────────────── */
+.sectorCardLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1.45;
+}
+
+/* ═══════════════════════════════════════════════
+   INTERFACE DE CHAT
+   ═══════════════════════════════════════════════ */
+
+/* Colonne centrée */
 .column {
   flex: 1;
   overflow: hidden;
@@ -99,7 +115,7 @@
   margin: 0 auto;
 }
 
-/* ── Messages ─────────────────────────────────── */
+/* Zone messages */
 .messagesArea {
   flex: 1;
   overflow-y: auto;
@@ -121,7 +137,7 @@
   padding: 10px 14px;
 }
 
-/* ── Input area ───────────────────────────────── */
+/* Zone de saisie */
 .inputArea {
   flex-shrink: 0;
   display: flex;
@@ -141,7 +157,7 @@
   font-size: 14.5px;
   color: var(--color-primary);
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
   font-family: var(--font);
 }
 .input::placeholder { color: #b0b0b0; }
@@ -174,9 +190,28 @@
 .sendButton:active:not(:disabled) { transform: scale(0.94); }
 .sendButton:disabled { opacity: 0.3; cursor: not-allowed; }
 
-/* ── Responsive ───────────────────────────────── */
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+@media (max-width: 520px) {
+  .sectorGrid {
+    grid-template-columns: 1fr;
+  }
+  .sectorTitle {
+    font-size: 22px;
+  }
+  .sectorCard {
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+  }
+  .sectorSubtitle {
+    margin-bottom: 12px;
+  }
+}
+
 @media (max-width: 720px) {
-  .header { padding: 0 16px; }
-  .messagesArea { padding: 20px 12px 12px; }
-  .inputArea { padding: 10px 12px 16px; }
+  .messagesArea  { padding: 20px 12px 12px; }
+  .inputArea     { padding: 10px 12px 16px; }
+  .sectorScreen  { padding: 28px 16px; }
 }
