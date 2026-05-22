@@ -101,7 +101,7 @@ export default function Message({ message, onCallback }) {
                           components={{
                             a: ({ node, ...props }) => (
                               <a {...props} target="_blank" rel="noopener noreferrer"
-                                style={{ color: '#4f46e5', textDecoration: 'underline' }} />
+                                style={{ color: 'var(--color-accent)', textDecoration: 'underline' }} />
                             )
                           }}
                         >
@@ -118,7 +118,7 @@ export default function Message({ message, onCallback }) {
           {formatTime(message.timestamp)}
         </span>
       </div>
-      {isUser && <div className={`${styles.avatar} ${styles.userAvatar}`}>Vous</div>}
+      {/* pas d'avatar côté utilisateur */}
     </div>
   )
 }

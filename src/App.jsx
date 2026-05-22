@@ -8,13 +8,21 @@ const MAX_USER_MESSAGES = 10
 
 const ERROR_TEXT = 'Je rencontre un problème technique. Contactez-nous sur nikoa.fr/contact.'
 
-// ── Confirmations locales par secteur (affichées côté client uniquement) ──────
+// ── Confirmations locales par secteur (côté client uniquement) ─────────────────
 const SECTOR_CONFIRMATIONS = {
   1: `Vous avez choisi le secteur Comptable & Juridique. Je suis Sophie, assistante du Cabinet Véran & Associés. Posez-moi les questions que vos clients vous posent souvent, ou celles qui vous font perdre du temps — je suis là 24h/24 pour y répondre à leur place.`,
   2: `Vous avez choisi le secteur Médical & Paramédical. Je suis Emma, assistante du Cabinet Santé Loire. Posez-moi les questions que vos patients vous posent souvent, ou celles qui surchargent votre secrétariat — c'est exactement ce que je gère à leur place.`,
   3: `Vous avez choisi le secteur E-commerce. Je suis Alex, assistant de Maison Dore. Posez-moi les questions que vos clients posent avant d'acheter, après leur commande, ou quand ils veulent retourner un article — je réponds instantanément à leur place.`,
   4: `Vous avez choisi le secteur Artisan & PME locale. Je suis Marc, assistant de Dupont Plomberie. Posez-moi les questions que vos clients vous posent souvent par téléphone ou que vous n'avez pas le temps de traiter en journée — je les prends en charge à votre place.`,
 }
+
+// ── Cards de sélection ─────────────────────────────────────────────────────────
+const SECTOR_CARDS = [
+  { num: 1, label: 'Cabinet comptable ou juridique', badge: 'Comptabilité' },
+  { num: 2, label: 'Médical ou paramédical',          badge: 'Santé'        },
+  { num: 3, label: 'E-commerce ou boutique',          badge: 'Commerce'     },
+  { num: 4, label: 'Artisan ou PME locale',           badge: 'Artisanat'    },
+]
 
 function parseAssistantResponse(raw) {
   const match = raw.match(/([\s\S]*?)(\{[\s\S]*?"actions"\s*:[\s\S]*?\})\s*$/)
@@ -27,49 +35,9 @@ function parseAssistantResponse(raw) {
   }
 }
 
-// ── Icônes SVG (style Lucide) ──────────────────────────────────────────────────
-function BriefcaseIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-      stroke="#FF0057" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-    </svg>
-  )
-}
-
-function HeartIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-      stroke="#FF0057" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-    </svg>
-  )
-}
-
-function ShoppingBagIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-      stroke="#FF0057" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-      <line x1="3" y1="6" x2="21" y2="6"/>
-      <path d="M16 10a4 4 0 0 1-8 0"/>
-    </svg>
-  )
-}
-
-function WrenchIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-      stroke="#FF0057" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-    </svg>
-  )
-}
-
 function SendIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
       stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <line x1="22" y1="2" x2="11" y2="13" />
       <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -77,33 +45,30 @@ function SendIcon() {
   )
 }
 
-// ── Données des cards de sélection ────────────────────────────────────────────
-const SECTOR_CARDS = [
-  { num: 1, label: 'Cabinet comptable ou juridique', Icon: BriefcaseIcon },
-  { num: 2, label: 'Médical ou paramédical',          Icon: HeartIcon      },
-  { num: 3, label: 'E-commerce ou boutique',          Icon: ShoppingBagIcon },
-  { num: 4, label: 'Artisan ou PME locale',           Icon: WrenchIcon     },
-]
-
-// ── Écran de sélection de secteur ─────────────────────────────────────────────
+// ── Écran de sélection ─────────────────────────────────────────────────────────
 function SectorScreen({ onSelect }) {
   return (
     <div className={styles.sectorScreen}>
       <div className={styles.sectorContent}>
-        <h1 className={styles.sectorTitle}>Bienvenue dans la démo NIKOA</h1>
+        <h1 className={styles.sectorTitle}>
+          Bienvenue dans la démo NIKO<span className={styles.sectorAccent}>A</span>
+        </h1>
         <p className={styles.sectorSubtitle}>
           Pour quel domaine souhaitez-vous tester votre futur assistant IA ?
         </p>
         <div className={styles.sectorGrid}>
-          {SECTOR_CARDS.map(({ num, label, Icon }) => (
+          {SECTOR_CARDS.map(({ num, label, badge }) => (
             <button
               key={num}
               type="button"
               className={styles.sectorCard}
               onClick={() => onSelect(num)}
             >
-              <span className={styles.sectorCardIcon}><Icon /></span>
+              <span className={styles.sectorCardNum} aria-hidden="true">
+                {String(num).padStart(2, '0')}
+              </span>
               <span className={styles.sectorCardLabel}>{label}</span>
+              <span className={styles.sectorCardBadge}>{badge}</span>
             </button>
           ))}
         </div>
@@ -125,7 +90,6 @@ export default function App() {
   const inputRef        = useRef(null)
   const conversationRef = useRef([])
 
-  // Auto-scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
@@ -141,7 +105,7 @@ export default function App() {
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
       role: 'assistant',
-      content: `✅ Votre demande a bien été transmise à l'équipe NIKOA. Nous vous recontacterons rapidement.`,
+      content: `Votre demande a bien été transmise à l'équipe NIKOA. Nous vous recontacterons rapidement.`,
       timestamp: new Date(),
     }])
   }, [])
@@ -150,13 +114,10 @@ export default function App() {
     messages.map(m => ({ role: m.role, content: m.content }))
   , [messages])
 
-  // ── Sélection d'un secteur ──────────────────────────────────────────────────
   const handleSectorSelect = useCallback(async (num) => {
-    // 1. Basculer immédiatement vers l'interface de chat
     setSelectedSector(num)
     setSectorLoading(true)
 
-    // 2. Afficher la confirmation locale (côté client uniquement, pas envoyée à l'API)
     setMessages([{
       id: 'sector-confirm',
       role: 'assistant',
@@ -164,7 +125,6 @@ export default function App() {
       timestamp: new Date(),
     }])
 
-    // 3. Envoyer le numéro silencieusement à l'API pour activer le bon persona
     const silentHistory = [{ role: 'user', content: String(num) }]
     try {
       const response = await fetch('/api/chat', {
@@ -176,10 +136,8 @@ export default function App() {
         const data = await response.json()
         const rawText = data.content[0].text
         const { text: assistantText } = parseAssistantResponse(rawText)
-        // Stocker la vraie réponse API dans l'historique pour les échanges suivants
         conversationRef.current = [...silentHistory, { role: 'assistant', content: assistantText }]
       } else {
-        // Fallback : utiliser le message local comme contexte
         conversationRef.current = [...silentHistory, { role: 'assistant', content: SECTOR_CONFIRMATIONS[num] }]
       }
     } catch {
@@ -190,7 +148,6 @@ export default function App() {
     }
   }, [])
 
-  // ── Envoi d'un message utilisateur ─────────────────────────────────────────
   const sendMessage = useCallback(async (text) => {
     const trimmed = text.trim()
     if (!trimmed || isTyping || sessionExhausted || sectorLoading) return
@@ -266,10 +223,8 @@ export default function App() {
   return (
     <div className={styles.app}>
       {selectedSector === null ? (
-        // ── Écran de sélection ──────────────────────────────────────────────
         <SectorScreen onSelect={handleSectorSelect} />
       ) : (
-        // ── Interface de chat ───────────────────────────────────────────────
         <div className={styles.column}>
           <div className={styles.messagesArea}>
             {messages.map(msg => (
@@ -278,7 +233,7 @@ export default function App() {
             {isTyping && <TypingIndicator />}
             {sessionExhausted && !isTyping && (
               <p className={styles.sessionLimit}>
-                Démo terminée. Actualisez la page pour recommencer.
+                Démo terminée — actualisez la page pour recommencer.
               </p>
             )}
             {showCallbackForm && (
@@ -299,7 +254,7 @@ export default function App() {
               placeholder={
                 sectorLoading    ? 'Chargement…' :
                 sessionExhausted ? 'Démo terminée' :
-                                   'Posez votre question…'
+                                   'Écrivez votre message…'
               }
               value={input}
               onChange={e => setInput(e.target.value)}

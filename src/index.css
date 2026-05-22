@@ -5,7 +5,7 @@
 }
 
 :root {
-  /* Charte NIKOA full-screen */
+  /* ── Palette NIKOA ─────────────────────────── */
   --color-primary:  #1A1A1A;
   --color-accent:   #FF0057;
   --color-bg:       #FFFFFF;
@@ -13,19 +13,26 @@
   --color-text:     #555555;
   --color-border:   #E8E8E8;
 
-  /* Legacy aliases (used in Message.module.css) */
+  /* ── Tokens de forme ───────────────────────── */
+  --radius-card: 16px;
+  --radius-pill: 99px;
+
+  /* ── Typographie ────────────────────────────── */
+  --font-heading: 'Syne', sans-serif;
+  --font-body:    'Plus Jakarta Sans', sans-serif;
+
+  /* Aliases rétro-compat (composants existants) */
+  --font-title: 'Syne', sans-serif;
+  --font:       'Plus Jakarta Sans', sans-serif;
+
+  /* Aliases couleur rétro-compat */
   --cyan:        #FF0057;
   --cyan-dark:   #cc0044;
-  --green:       #1A1A1A;
-  --green-btn:   #FF0057;
-  --gray-sec:    #999999;
   --dark:        #1A1A1A;
   --white:       #FFFFFF;
   --gray-border: #E8E8E8;
   --gray-bg:     #F7F6F3;
-
-  --font-title: 'Syne', system-ui, sans-serif;
-  --font:       'Plus Jakarta Sans', system-ui, sans-serif;
+  --gray-sec:    #999999;
 }
 
 html, body, #root {
@@ -34,7 +41,7 @@ html, body, #root {
 }
 
 body {
-  font-family: var(--font);
+  font-family: var(--font-body);
   background-color: var(--color-bg);
   color: var(--color-primary);
   -webkit-font-smoothing: antialiased;
@@ -42,8 +49,8 @@ body {
   overflow: hidden;
 }
 
-button { font-family: var(--font); cursor: pointer; border: none; outline: none; }
-input, textarea { font-family: var(--font); }
+button { font-family: var(--font-body); cursor: pointer; border: none; outline: none; }
+input, textarea { font-family: var(--font-body); }
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }

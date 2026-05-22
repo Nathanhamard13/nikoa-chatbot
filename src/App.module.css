@@ -9,7 +9,7 @@
 }
 
 /* ═══════════════════════════════════════════════
-   ÉCRAN DE SÉLECTION DE SECTEUR
+   ÉCRAN DE SÉLECTION
    ═══════════════════════════════════════════════ */
 
 .sectorScreen {
@@ -17,38 +17,43 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px;
+  padding: 48px 24px;
   overflow-y: auto;
 }
 
 .sectorContent {
   width: 100%;
-  max-width: 580px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .sectorTitle {
-  font-family: var(--font-title);
-  font-size: 30px;
+  font-family: var(--font-heading);
+  font-size: 48px;
   font-weight: 800;
   color: var(--color-primary);
   text-align: center;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  letter-spacing: -2px;
   margin-bottom: 4px;
 }
 
+.sectorAccent {
+  color: var(--color-accent);
+}
+
 .sectorSubtitle {
-  font-size: 15px;
+  font-family: var(--font-body);
+  font-size: 16px;
   font-weight: 400;
   color: var(--color-text);
   text-align: center;
   line-height: 1.6;
-  max-width: 400px;
-  margin-bottom: 20px;
+  max-width: 380px;
+  margin-bottom: 24px;
 }
 
 .sectorGrid {
@@ -59,52 +64,77 @@
 }
 
 .sectorCard {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 14px;
-  padding: 20px;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 28px;
+  min-height: 148px;
   background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-card);
   cursor: pointer;
   text-align: left;
   font-family: inherit;
-  transition: border-color 0.18s, background 0.18s, transform 0.12s, box-shadow 0.18s;
+  transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
 }
 .sectorCard:hover {
   border-color: var(--color-accent);
-  background: rgba(255, 0, 87, 0.04);
-  box-shadow: 0 4px 16px rgba(255, 0, 87, 0.1);
+  background: rgba(255, 0, 87, 0.03);
+  box-shadow: 0 4px 20px rgba(255, 0, 87, 0.08);
 }
 .sectorCard:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
+  transition: transform 100ms ease;
 }
 
-.sectorCardIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: #ffffff;
-  border: 1px solid var(--color-border);
-  flex-shrink: 0;
+/* Filigrane numéroté — décoratif */
+.sectorCardNum {
+  position: absolute;
+  top: 8px;
+  right: 18px;
+  font-family: var(--font-heading);
+  font-size: 64px;
+  font-weight: 800;
+  color: rgba(26, 26, 26, 0.05);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -2px;
 }
 
 .sectorCardLabel {
-  font-size: 14px;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
   color: var(--color-primary);
-  line-height: 1.45;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+/* Badge pill */
+.sectorCardBadge {
+  display: inline-block;
+  background: rgba(255, 0, 87, 0.08);
+  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.01em;
 }
 
 /* ═══════════════════════════════════════════════
-   INTERFACE DE CHAT
+   INTERFACE CHAT
    ═══════════════════════════════════════════════ */
 
-/* Colonne centrée */
 .column {
   flex: 1;
   overflow: hidden;
@@ -115,63 +145,67 @@
   margin: 0 auto;
 }
 
-/* Zone messages */
 .messagesArea {
   flex: 1;
   overflow-y: auto;
-  padding: 28px 16px 16px;
+  padding: 32px 20px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   background: var(--color-bg);
 }
 
-/* Session expirée */
 .sessionLimit {
   text-align: center;
+  font-family: var(--font-body);
   font-size: 12.5px;
   color: var(--color-text);
   background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
+  border: 0.5px solid var(--color-border);
   border-radius: 8px;
-  padding: 10px 14px;
+  padding: 10px 16px;
 }
 
-/* Zone de saisie */
+/* ── Zone de saisie ───────────────────────────── */
 .inputArea {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px 20px;
+  padding: 14px 20px 20px;
   background: var(--color-bg);
-  border-top: 1px solid var(--color-border);
+  border-top: 0.5px solid var(--color-border);
 }
 
 .input {
   flex: 1;
-  background: var(--color-bg-alt);
-  border: 1.5px solid var(--color-border);
-  border-radius: 24px;
-  padding: 11px 18px;
-  font-size: 14.5px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
   color: var(--color-primary);
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-  font-family: var(--font);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 }
-.input::placeholder { color: #b0b0b0; }
+.input::placeholder {
+  color: #C0BFBC;
+}
 .input:focus {
   border-color: var(--color-accent);
-  background: var(--color-bg);
-  box-shadow: 0 0 0 3px rgba(255, 0, 87, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 0, 87, 0.08);
 }
-.input:disabled { opacity: 0.5; cursor: not-allowed; }
+.input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 
 .sendButton {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   background: var(--color-accent);
   color: #ffffff;
   border: none;
@@ -180,38 +214,34 @@
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.15s, transform 0.1s, opacity 0.15s;
-  box-shadow: 0 2px 8px rgba(255, 0, 87, 0.35);
+  transition: background 150ms ease, transform 100ms ease, opacity 150ms ease;
 }
 .sendButton:hover:not(:disabled) {
-  background: var(--color-primary);
-  box-shadow: 0 2px 10px rgba(26, 26, 26, 0.3);
+  background: #E0004E;
 }
-.sendButton:active:not(:disabled) { transform: scale(0.94); }
-.sendButton:disabled { opacity: 0.3; cursor: not-allowed; }
+.sendButton:active:not(:disabled) {
+  transform: scale(0.93);
+}
+.sendButton:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
 
 /* ═══════════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════════ */
-@media (max-width: 520px) {
-  .sectorGrid {
-    grid-template-columns: 1fr;
-  }
-  .sectorTitle {
-    font-size: 22px;
-  }
-  .sectorCard {
-    flex-direction: row;
-    align-items: center;
-    padding: 16px;
-  }
-  .sectorSubtitle {
-    margin-bottom: 12px;
-  }
+
+@media (max-width: 560px) {
+  .sectorGrid          { grid-template-columns: 1fr; }
+  .sectorTitle         { font-size: 32px; letter-spacing: -1px; }
+  .sectorSubtitle      { font-size: 15px; margin-bottom: 16px; }
+  .sectorScreen        { padding: 32px 16px; }
+  .sectorCard          { min-height: 110px; padding: 22px; }
+  .sectorCardNum       { font-size: 52px; }
+  .messagesArea        { padding: 24px 14px 14px; }
+  .inputArea           { padding: 12px 14px 16px; }
 }
 
 @media (max-width: 720px) {
-  .messagesArea  { padding: 20px 12px 12px; }
-  .inputArea     { padding: 10px 12px 16px; }
-  .sectorScreen  { padding: 28px 16px; }
+  .sectorTitle { font-size: 38px; }
 }
