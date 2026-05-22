@@ -1,15 +1,15 @@
-
 .wrapper {
   position: relative;
   flex-shrink: 0;
 }
 
+/* Bouton trigger ≡ / ✕ */
 .trigger {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1.5px solid rgba(79, 70, 229, 0.3);
-  background: #ffffff;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,22 +18,24 @@
   transition: background 0.15s, border-color 0.15s;
 }
 .trigger:hover {
-  background: rgba(79, 70, 229, 0.07);
-  border-color: #4f46e5;
+  background: var(--color-bg-alt);
+  border-color: var(--color-primary);
 }
 .trigger.open {
-  background: rgba(79, 70, 229, 0.1);
-  border-color: #4f46e5;
+  background: var(--color-bg-alt);
+  border-color: var(--color-primary);
 }
 
+/* Popup — s'ouvre vers le bas (menu dans le header) */
 .popup {
   position: absolute;
-  bottom: calc(100% + 10px);
-  left: 0;
+  top: calc(100% + 10px);
+  right: 0;
   width: 290px;
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--color-border);
   overflow: hidden;
   z-index: 200;
   animation: fadeUp 0.15s ease;
@@ -44,6 +46,7 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Item générique */
 .item {
   display: flex;
   align-items: center;
@@ -58,21 +61,22 @@
   transition: background 0.15s;
 }
 .item:hover {
-  background: #f5f3ff;
+  background: var(--color-bg-alt);
 }
 .item:hover .label {
-  color: #4f46e5;
+  color: var(--color-primary);
 }
 
+/* Premier item (callback) — mis en avant */
 .itemCallback {
-  background: #f5f3ff;
+  background: #fff5f7;
 }
 .itemCallback .label {
-  color: #4f46e5;
+  color: var(--color-accent);
   font-weight: 700;
 }
 .itemCallback:hover {
-  background: #4f46e5;
+  background: var(--color-accent);
 }
 .itemCallback:hover .label {
   color: #ffffff;
@@ -81,9 +85,14 @@
   filter: brightness(0) invert(1);
 }
 
+/* Coins arrondis */
 .itemFirst { border-radius: 12px 12px 0 0; }
 .itemLast  { border-radius: 0 0 12px 12px; }
-.itemDivider { border-bottom: 1px solid #f0f0f0; }
+
+/* Séparateur */
+.itemDivider {
+  border-bottom: 1px solid var(--color-border);
+}
 
 .icon {
   display: flex;
@@ -94,7 +103,7 @@
 .label {
   font-size: 13.5px;
   font-weight: 500;
-  color: #2c2c2c;
+  color: var(--color-primary);
   transition: color 0.15s;
   line-height: 1.3;
 }

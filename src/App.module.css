@@ -1,196 +1,85 @@
-/* ── Bulle d'accroche animée ──────────────────────────────── */
+/* ── Full-screen layout ───────────────────────── */
 
-@keyframes bubblePop {
-  0%   { opacity: 0; transform: scale(0.8) translateY(8px); }
-  60%  { transform: scale(1.05) translateY(-2px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-@keyframes bubblePulse {
-  0%, 80%, 100% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12); }
-  90%           { box-shadow: 0 4px 26px rgba(79, 70, 229, 0.38); }
-}
-
-@keyframes badgePulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.25); opacity: 0.8; }
-}
-
-.speechBubble {
-  position: fixed;
-  bottom: 30px;
-  right: 92px;          /* widget (right:24 + width:56 + gap:12) */
-  max-width: 220px;
-  min-width: 160px;
-  background: #f5f3ff;
-  border: 1px solid #ddd6fe;
-  border-radius: 16px 16px 16px 4px;
-  padding: 12px 30px 20px 16px;
-  box-shadow: 0 6px 24px rgba(79, 70, 229, 0.15);
-  z-index: 9997;
-  cursor: pointer;
-  /* pop + pulse récurrent toutes les 8s */
-  animation:
-    bubblePop  0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-    bubblePulse 8s   ease-in-out 8s infinite;
-}
-.speechBubble:hover {
-  box-shadow: 0 8px 28px rgba(79, 70, 229, 0.22);
-}
-
-/* Flèche triangulaire pointant vers le bas (vers le widget) */
-.speechBubble::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  right: 20px;
-  width: 0;
-  height: 0;
-  border-left:  10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top:   10px solid #f5f3ff;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
-}
-
-.speechClose {
-  position: absolute;
-  top: 7px;
-  right: 7px;
-  width: 18px;
-  height: 18px;
-  border: none;
-  background: none;
-  color: #999;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background 0.15s, color 0.15s;
-}
-.speechClose:hover { background: #f0f0f0; color: #555; }
-
-.speechText {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 500;
-  color: #2c2c2c;
-  line-height: 1.45;
-  transition: opacity 0.42s ease;
-}
-.speechTextHidden { opacity: 0; }
-
-/* ── Bulle flottante ──────────────────────────────────────── */
-.bubble {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #4f46e5;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.5);
-  z-index: 9999;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.bubble:hover {
-  transform: scale(1.07);
-  box-shadow: 0 6px 22px rgba(79, 70, 229, 0.6);
-}
-
-/* Badge rouge — point pulsant (plus de chiffre) */
-.badge {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #e53935;
-  border: 2px solid #fff;
-  pointer-events: none;
-  animation: badgePulse 2s ease-in-out infinite;
-}
-
-/* ── Fenêtre de chat ──────────────────────────────────────── */
-.chatWindow {
-  position: fixed;
-  bottom: 92px;
-  right: 24px;
-  width: 380px;
-  height: 580px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+.app {
   display: flex;
   flex-direction: column;
-  z-index: 9998;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-bg);
   overflow: hidden;
-  /* Fermé par défaut */
-  opacity: 0;
-  transform: translateY(18px) scale(0.96);
-  pointer-events: none;
-  transition: opacity 0.22s ease, transform 0.22s ease;
-}
-.chatWindowOpen {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: all;
 }
 
-/* ── Header ───────────────────────────────────────────────── */
+/* ── Header ───────────────────────────────────── */
 .header {
+  width: 100%;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 24px;
+}
+
+.headerInner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 13px 16px;
-  background: #ffffff;
-  border-bottom: 1px solid #ebebeb;
-  flex-shrink: 0;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
 }
+
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
+
 .headerAvatar {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: #4f46e5;
-  color: #ffffff;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: var(--font-title);
   font-size: 10px;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   flex-shrink: 0;
 }
+
 .headerInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
+
 .headerName {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1a1a1a;
+  font-family: var(--font-title);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-primary);
   line-height: 1;
+  letter-spacing: 0.02em;
 }
+
+.headerAccent {
+  color: var(--color-accent);
+}
+
 .headerStatus {
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 11.5px;
-  color: #6b7280;
+  color: var(--color-text);
+  font-weight: 400;
 }
+
 .statusDot {
   width: 7px;
   height: 7px;
@@ -198,68 +87,77 @@
   background: #22c55e;
   flex-shrink: 0;
 }
-.closeBtn {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-  background: #f3f4f6;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  flex-shrink: 0;
-}
-.closeBtn:hover { background: #e5e7eb; color: #1a1a1a; }
 
-/* ── Messages ─────────────────────────────────────────────── */
+/* ── Center column ────────────────────────────── */
+.column {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Messages ─────────────────────────────────── */
 .messagesArea {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 14px;
+  padding: 28px 16px 16px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  background: #f7f8fa;
+  gap: 16px;
+  background: var(--color-bg);
 }
 
-/* ── Zone de saisie ───────────────────────────────────────── */
+/* Session expirée */
+.sessionLimit {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+/* ── Input area ───────────────────────────────── */
 .inputArea {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 14px;
-  background: #ffffff;
-  border-top: 1px solid #ebebeb;
-  flex-shrink: 0;
+  gap: 10px;
+  padding: 12px 16px 20px;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
 }
+
 .input {
   flex: 1;
-  background: #f5f5f5;
-  border: 1.5px solid #e8e8e8;
-  border-radius: 20px;
-  padding: 10px 14px;
-  font-size: 14px;
-  color: #1a1a1a;
+  background: var(--color-bg-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: 24px;
+  padding: 11px 18px;
+  font-size: 14.5px;
+  color: var(--color-primary);
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
   font-family: var(--font);
 }
-.input::placeholder { color: #9ca3af; }
+.input::placeholder { color: #b0b0b0; }
 .input:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: var(--color-accent);
+  background: var(--color-bg);
+  box-shadow: 0 0 0 3px rgba(255, 0, 87, 0.1);
 }
 .input:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .sendButton {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: #4f46e5;
-  color: #313638;
+  background: var(--color-accent);
+  color: #ffffff;
   border: none;
   display: flex;
   align-items: center;
@@ -267,59 +165,18 @@
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.15s, transform 0.1s, opacity 0.15s;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 2px 8px rgba(255, 0, 87, 0.35);
 }
-.sendButton:hover:not(:disabled) { background: #4338ca; transform: scale(1.05); }
-.sendButton:active:not(:disabled) { transform: scale(0.96); }
-.sendButton:disabled { opacity: 0.35; cursor: not-allowed; }
-
-/* Session expirée */
-.sessionLimit {
-  text-align: center;
-  font-size: 12px;
-  color: #6b7280;
-  background: #f5f3ff;
-  border: 1px solid #ddd6fe;
-  border-radius: 8px;
-  padding: 8px 12px;
+.sendButton:hover:not(:disabled) {
+  background: var(--color-primary);
+  box-shadow: 0 2px 10px rgba(26, 26, 26, 0.3);
 }
+.sendButton:active:not(:disabled) { transform: scale(0.94); }
+.sendButton:disabled { opacity: 0.3; cursor: not-allowed; }
 
-/* ── Responsive mobile ────────────────────────────────────── */
-@media (max-width: 480px) {
-  .chatWindow {
-    width: 100%;
-    height: 100%;
-    bottom: 0;
-    right: 0;
-    border-radius: 0;
-  }
-  .bubble {
-    bottom: 16px;
-    right: 16px;
-    width: 52px;
-    height: 52px;
-  }
-  /* Masque le bouton flottant quand le chat est ouvert sur mobile.
-     Le chat prend tout l'écran : fermeture uniquement via le ✕ du header. */
-  .bubbleHidden {
-    display: none !important;
-  }
-}
-
-/* ── Footer ───────────────────────────────────────────────── */
-.footer {
-  text-align: center;
-  font-size: 11px;
-  color: #8c8e90;
-  padding: 6px 14px 8px;
-  background: #ffffff;
-  border-top: 1px solid #f0f0f0;
-  flex-shrink: 0;
-}
-
-.headerSub {
-  font-size: 10px;
-  color: #8c8e90;
-  line-height: 1;
-  margin-top: 1px;
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 720px) {
+  .header { padding: 0 16px; }
+  .messagesArea { padding: 20px 12px 12px; }
+  .inputArea { padding: 10px 12px 16px; }
 }

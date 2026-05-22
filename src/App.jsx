@@ -26,16 +26,6 @@ Tapez le numéro de votre choix.`,
 
 const ERROR_TEXT = 'Je rencontre un problème technique. Contactez-nous sur nikoa.fr/contact.'
 
-const SPEECH_PHRASES = [
-  'Un chatbot IA sur votre site — démo en direct.',
-  'Vos clients répondus 24h/24, même le dimanche.',
-  "Choisissez votre secteur et vivez l'expérience.",
-  'Agence web & IA basée à Vitré, Bretagne.',
-  'Transformez votre site en commercial disponible H24.',
-]
-
-const BUBBLE_CLOSED_KEY = 'nikoa_bubble_closed'
-
 function parseAssistantResponse(raw) {
   const match = raw.match(/([\s\S]*?)(\{[\s\S]*?"actions"\s*:[\s\S]*?\})\s*$/)
   if (!match) return { text: raw.trim(), actions: [] }
@@ -47,29 +37,10 @@ function parseAssistantResponse(raw) {
   }
 }
 
-/* ── SVG Icons ────────────────────────────────── */
-function ChatBubbleIcon() {
-  return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
-      stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-    </svg>
-  )
-}
-
-function CloseXIcon({ size = 18, color = 'currentColor' }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke={color} strokeWidth="2.5" strokeLinecap="round">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  )
-}
-
+/* ── SendIcon ─────────────────────────────────── */
 function SendIcon() {
   return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
       stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <line x1="22" y1="2" x2="11" y2="13" />
       <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -77,78 +48,22 @@ function SendIcon() {
   )
 }
 
-/* ── SpeechBubble ─────────────────────────────── */
-function SpeechBubble({ onClose, onOpen }) {
-  const [phraseIndex,   setPhraseIndex]   = useState(0)
-  const [phraseVisible, setPhraseVisible] = useState(true)
-
-  // Rotation des phrases toutes les 5 secondes avec fade
-  useEffect(() => {
-    const id = setInterval(() => {
-      setPhraseVisible(false)
-      setTimeout(() => {
-        setPhraseIndex(i => (i + 1) % SPEECH_PHRASES.length)
-        setPhraseVisible(true)
-      }, 420)
-    }, 5000)
-    return () => clearInterval(id)
-  }, [])
-
-  return (
-    <div
-      className={styles.speechBubble}
-      role="button"
-      aria-label="Ouvrir le chat"
-      tabIndex={0}
-      onClick={onOpen}
-      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onOpen()}
-    >
-      <button
-        className={styles.speechClose}
-        onClick={e => { e.stopPropagation(); onClose() }}
-        aria-label="Fermer"
-        type="button"
-      >
-        <CloseXIcon size={11} color="#999" />
-      </button>
-      <p className={`${styles.speechText} ${phraseVisible ? '' : styles.speechTextHidden}`}>
-        {SPEECH_PHRASES[phraseIndex]}
-      </p>
-    </div>
-  )
-}
-
 /* ── App ──────────────────────────────────────── */
 export default function App() {
-  const [isOpen,            setIsOpen]            = useState(false)
-  const [hasUnread,         setHasUnread]         = useState(false)
-  const [messages,          setMessages]          = useState([])
-  const [input,             setInput]             = useState('')
-  const [isTyping,          setIsTyping]          = useState(false)
-  const [showSuggestions,   setShowSuggestions]   = useState(true)
-  const [hasUserSent,       setHasUserSent]       = useState(false)
-  const [userMsgCount,      setUserMsgCount]      = useState(0)
-  const [showCallbackForm,  setShowCallbackForm]  = useState(false)
-  const [showSpeechBubble,  setShowSpeechBubble]  = useState(false)
+  const [messages,         setMessages]         = useState([])
+  const [input,            setInput]            = useState('')
+  const [isTyping,         setIsTyping]         = useState(false)
+  const [showSuggestions,  setShowSuggestions]  = useState(true)
+  const [hasUserSent,      setHasUserSent]      = useState(false)
+  const [userMsgCount,     setUserMsgCount]     = useState(0)
+  const [showCallbackForm, setShowCallbackForm] = useState(false)
   const messagesEndRef  = useRef(null)
   const inputRef        = useRef(null)
   const conversationRef = useRef([])
 
-  // Welcome message + badge rouge
+  // Welcome message
   useEffect(() => {
-    const t = setTimeout(() => {
-      setMessages([WELCOME_MESSAGE])
-      setHasUnread(true)
-    }, 800)
-    return () => clearTimeout(t)
-  }, [])
-
-  // Bulle d'accroche : apparaît 3s après le chargement si pas déjà fermée
-  useEffect(() => {
-    try {
-      if (sessionStorage.getItem(BUBBLE_CLOSED_KEY)) return
-    } catch (_) {}
-    const t = setTimeout(() => setShowSpeechBubble(true), 3000)
+    const t = setTimeout(() => setMessages([WELCOME_MESSAGE]), 600)
     return () => clearTimeout(t)
   }, [])
 
@@ -157,34 +72,10 @@ export default function App() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
 
-  // Focus input à l'ouverture
+  // Focus input on mount
   useEffect(() => {
-    if (isOpen) setTimeout(() => inputRef.current?.focus(), 220)
-  }, [isOpen])
-
-  // postMessage pour widget.js (redimensionne l'iframe)
-  useEffect(() => {
-    try {
-      window.parent.postMessage({ type: 'NIKOA_WIDGET_STATE', isOpen }, '*')
-    } catch (_) {}
-  }, [isOpen])
-
-  const dismissSpeechBubble = useCallback(() => {
-    setShowSpeechBubble(false)
-    try { sessionStorage.setItem(BUBBLE_CLOSED_KEY, '1') } catch (_) {}
+    setTimeout(() => inputRef.current?.focus(), 700)
   }, [])
-
-  const toggleOpen = () => {
-    setIsOpen(o => {
-      if (!o) {
-        setHasUnread(false)
-        // Ferme la bulle définitivement quand le chat s'ouvre
-        setShowSpeechBubble(false)
-        try { sessionStorage.setItem(BUBBLE_CLOSED_KEY, '1') } catch (_) {}
-      }
-      return !o
-    })
-  }
 
   const sessionExhausted = userMsgCount >= MAX_USER_MESSAGES
 
@@ -193,7 +84,7 @@ export default function App() {
     setShowSuggestions(false)
   }, [])
 
-  const handleCallbackSuccess = useCallback((telephone) => {
+  const handleCallbackSuccess = useCallback(() => {
     setShowCallbackForm(false)
     setMessages(prev => [...prev, {
       id: Date.now().toString(),
@@ -284,43 +175,34 @@ export default function App() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input) }
   }
 
-  // Badge visible si unread OU si bulle d'accroche visible
-  const showBadge = (hasUnread || showSpeechBubble) && !isOpen
-
   return (
-    <>
-      {/* ── Bulle d'accroche ──────────────────── */}
-      {showSpeechBubble && !isOpen && (
-        <SpeechBubble onClose={dismissSpeechBubble} onOpen={toggleOpen} />
-      )}
-
-      {/* ── Fenêtre de chat ────────────────────── */}
-      <div
-        className={`${styles.chatWindow} ${isOpen ? styles.chatWindowOpen : ''}`}
-        aria-hidden={!isOpen}
-        role="dialog"
-        aria-label="Chat démo - NIKOA"
-      >
-        {/* Header */}
-        <div className={styles.header}>
+    <div className={styles.app}>
+      {/* ── Header ────────────────────────────── */}
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
           <div className={styles.headerLeft}>
             <div className={styles.headerAvatar}>NK</div>
             <div className={styles.headerInfo}>
-              <span className={styles.headerName}>NIKOA</span>
+              <span className={styles.headerName}>
+                NIKO<span className={styles.headerAccent}>A</span>
+              </span>
               <span className={styles.headerStatus}>
                 <span className={styles.statusDot} />
                 En ligne
               </span>
             </div>
           </div>
-          <button className={styles.closeBtn} onClick={toggleOpen} aria-label="Fermer le chat">
-            <CloseXIcon size={16} />
-          </button>
+          <HamburgerMenu onCallback={handleCallback} />
         </div>
+      </header>
 
+      {/* ── Center column ─────────────────────── */}
+      <div className={styles.column}>
         {/* Messages */}
         <div className={styles.messagesArea}>
-          {messages.map(msg => <Message key={msg.id} message={msg} onCallback={handleCallback} />)}
+          {messages.map(msg => (
+            <Message key={msg.id} message={msg} onCallback={handleCallback} />
+          ))}
           {isTyping && <TypingIndicator />}
           {sessionExhausted && !isTyping && (
             <p className={styles.sessionLimit}>
@@ -342,14 +224,13 @@ export default function App() {
           <QuickSuggestions onSelect={s => sendMessage(s)} />
         )}
 
-        {/* Zone de saisie */}
+        {/* Input */}
         <form className={styles.inputArea} onSubmit={handleSubmit}>
-          <HamburgerMenu onCallback={handleCallback} />
           <input
             ref={inputRef}
             type="text"
             className={styles.input}
-            placeholder={sessionExhausted ? 'Démo terminée' : 'Posez votre question...'}
+            placeholder={sessionExhausted ? 'Démo terminée' : 'Posez votre question…'}
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -366,16 +247,6 @@ export default function App() {
           </button>
         </form>
       </div>
-
-      {/* ── Bulle flottante ────────────────────── */}
-      <button
-        className={`${styles.bubble} ${isOpen ? styles.bubbleHidden : ''}`}
-        onClick={toggleOpen}
-        aria-label={isOpen ? 'Fermer le chat' : 'Démo NIKOA'}
-      >
-        {isOpen ? <CloseXIcon size={22} color="white" /> : <ChatBubbleIcon />}
-        {showBadge && <span className={styles.badge} aria-label="Nouveau message" />}
-      </button>
-    </>
+    </div>
   )
 }
