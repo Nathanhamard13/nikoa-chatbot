@@ -217,7 +217,11 @@ export default function App() {
 
   const handleSubmit  = (e) => { e.preventDefault(); sendMessage(input) }
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input) }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      e.stopPropagation()
+      sendMessage(input)
+    }
   }
 
   return (
